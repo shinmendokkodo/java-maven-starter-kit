@@ -110,7 +110,10 @@ public class RiderService implements IRiderService {
         if (rider == null)
             throw new RiderException(Constants.ENTITY_NOT_FOUND_MESSAGE);
 
+        driver.setAvailable(false);
         Ride newRide = new Ride(rideId, rider, driver, rider.getX(), rider.getY());
+        
+        driverRepository.save(driver);
         rideRepository.save(newRide);
         return newRide.getId();
     }
@@ -126,12 +129,16 @@ public class RiderService implements IRiderService {
             throw new RiderException(Constants.INVALID_RIDE_MESSAGE);
 
         ride.stopRide(x, y, minutes);
+        Driver driver = ride.getDriver();
+        driver.setAvailable(true);
+
+        rideRepository.save(ride);
+        driverRepository.save(driver);
         return ride.getId();
     }
 
     @Override
     public BillResponse bill(String rideId) throws RiderException {
-
         Ride ride = rideRepository.getById(rideId);
         if (ride == null)
             throw new RiderException(Constants.INVALID_RIDE_MESSAGE);

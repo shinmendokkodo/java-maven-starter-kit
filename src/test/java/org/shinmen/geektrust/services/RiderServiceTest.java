@@ -1,6 +1,7 @@
 package org.shinmen.geektrust.services;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -197,5 +198,123 @@ class RiderServiceTest {
         Assertions.assertThrows(RiderException.class, () -> riderService.startRide(rideId, driverOption, riderId));
         verify(matchRepository, times(1)).getById(riderId);
         verify(rideRepository, times(1)).getById(rideId);
+    }
+
+    @Test
+    void testStartRideThrowsExceptionWhenInvalidDriverOption() {
+        // Arrange
+        String riderId = "R1";
+        String rideId = "RIDE-001";
+        int driverOption = 4;
+
+        Match match = new Match(riderId, List.of("D1", "D3"));
+
+        when(matchRepository.getById(riderId)).thenReturn(match);
+        when(rideRepository.getById(rideId)).thenReturn(null);
+
+        // Act & Assert
+        Assertions.assertThrows(RiderException.class, () -> riderService.startRide(rideId, driverOption, riderId));
+        verify(matchRepository, times(1)).getById(riderId);
+        verify(rideRepository, times(1)).getById(rideId);
+    }
+
+    @Test
+    void testStartRideThrowsExceptionWhenDriverIsNull() {
+        // Arrange
+        String riderId = "R1";
+        String rideId = "RIDE-001";
+        int driverOption = 2;
+
+        Match match = new Match(riderId, List.of("D1", "D3"));
+
+        when(matchRepository.getById(riderId)).thenReturn(match);
+        when(rideRepository.getById(rideId)).thenReturn(null);
+        when(driverRepository.getById(anyString())).thenReturn(null);
+
+        // Act & Assert
+        Assertions.assertThrows(RiderException.class, () -> riderService.startRide(rideId, driverOption, riderId));
+        verify(matchRepository, times(1)).getById(riderId);
+        verify(rideRepository, times(1)).getById(rideId);
+        verify(driverRepository, times(1)).getById(anyString());
+    }
+
+    @Test
+    void testStartRideThrowsExceptionWhenDriverUnAvailable() {
+        // Arrange
+        String riderId = "R1";
+        String rideId = "RIDE-001";
+        String driverId = "D3";
+        int driverOption = 2;
+
+        Driver driver = new Driver(driverId, 2, 2);
+        driver.setAvailable(false);
+
+        Match match = new Match(riderId, List.of("D1", "D3"));
+
+        when(matchRepository.getById(riderId)).thenReturn(match);
+        when(rideRepository.getById(rideId)).thenReturn(null);
+        when(driverRepository.getById(anyString())).thenReturn(driver);
+
+        // Act & Assert
+        Assertions.assertThrows(RiderException.class, () -> riderService.startRide(rideId, driverOption, riderId));
+        verify(matchRepository, times(1)).getById(riderId);
+        verify(rideRepository, times(1)).getById(rideId);
+        verify(driverRepository, times(1)).getById(anyString());
+    }
+
+    @Test
+    void testStartRideThrowsExceptionWhenRiderIsNull() {
+        // Arrange
+        String riderId = "R1";
+        String rideId = "RIDE-001";
+        String driverId = "D3";
+        int driverOption = 2;
+
+        Driver driver = new Driver(driverId, 2, 2);
+
+        Match match = new Match(riderId, List.of("D1", "D3"));
+
+        when(matchRepository.getById(riderId)).thenReturn(match);
+        when(rideRepository.getById(rideId)).thenReturn(null);
+        when(driverRepository.getById(anyString())).thenReturn(driver);
+        when(riderRepository.getById(riderId)).thenReturn(null);
+
+        // Act & Assert
+        Assertions.assertThrows(RiderException.class, () -> riderService.startRide(rideId, driverOption, riderId));
+        verify(matchRepository, times(1)).getById(riderId);
+        verify(rideRepository, times(1)).getById(rideId);
+        verify(driverRepository, times(1)).getById(anyString());
+        verify(riderRepository, times(1)).getById(riderId);
+    }
+
+    @Test
+    void testStartRide() throws RiderException {
+        // Arrange
+        String rideId = "RIDE-001";
+        int driverOption = 2;
+        String riderId = "R1";
+        String driverId = "D3";
+
+        Match match = new Match(riderId, List.of("D1", "D3"));
+        Rider rider = new Rider(riderId, 0, 0);
+        Driver driver = new Driver(driverId, 2, 2);
+
+        when(matchRepository.getById(riderId)).thenReturn(match);
+        when(rideRepository.getById(rideId)).thenReturn(null);
+        when(driverRepository.getById(anyString())).thenReturn(driver);
+        when(riderRepository.getById(riderId)).thenReturn(rider);
+        doNothing().when(driverRepository).save(driver);
+        doNothing().when(rideRepository).save(any(Ride.class));
+
+        String result = riderService.startRide(rideId, driverOption, riderId);
+
+        // Act & Assert
+        Assertions.assertEquals(rideId, result);
+        verify(matchRepository, times(1)).getById(riderId);
+        verify(rideRepository, times(1)).getById(rideId);
+        verify(driverRepository, times(1)).getById(anyString());
+        verify(riderRepository, times(1)).getById(riderId);
+        verify(driverRepository, times(1)).save(driver);
+        verify(rideRepository, times(1)).save(any(Ride.class));
     }
 }
