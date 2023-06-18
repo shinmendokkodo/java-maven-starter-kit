@@ -1,7 +1,5 @@
 package com.ridesharing.geektrust.models;
 
-import java.util.Objects;
-
 public abstract class BaseEntity {
     private String id;
 
@@ -21,10 +19,5 @@ public abstract class BaseEntity {
             return false;
         BaseEntity baseEntity = (BaseEntity) o;
         return getId().equals(baseEntity.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
     }
 }

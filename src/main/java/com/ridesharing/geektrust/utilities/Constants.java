@@ -1,5 +1,7 @@
 package com.ridesharing.geektrust.utilities;
 
+import java.text.DecimalFormat;
+
 public class Constants {
 
     private Constants() {
@@ -47,4 +49,10 @@ public class Constants {
     public static final String RIDE_STARTED_OUTPUT = "RIDE_STARTED";
     public static final String RIDE_STOPPED_OUTPUT = "RIDE_STOPPED";
     public static final String BILL_OUTPUT = "BILL";
+    
+    public static String formatNumber(double number) {
+        String decimal = "0.00";
+        DecimalFormat decimalFormat = new DecimalFormat(decimal);
+        return decimalFormat.format(number);
+    }
 }

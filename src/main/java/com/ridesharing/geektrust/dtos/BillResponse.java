@@ -1,6 +1,6 @@
 package com.ridesharing.geektrust.dtos;
 
-import java.util.Objects;
+import com.ridesharing.geektrust.utilities.Constants;
 
 public class BillResponse {
     private String rideId;
@@ -15,7 +15,7 @@ public class BillResponse {
 
     @Override
     public String toString() {
-        return rideId + " " + driverId + " " + totalFare;
+        return rideId + " " + driverId + " " + Constants.formatNumber(totalFare);
     }
 
     @Override
@@ -28,11 +28,6 @@ public class BillResponse {
             && getTotalFare() == that.getTotalFare();
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getRideId());
-    }
-
     public String getRideId() {
         return rideId;
     }
@@ -43,6 +38,5 @@ public class BillResponse {
 
     public double getTotalFare() {
         return totalFare;
-    }
-    
+    }    
 }
