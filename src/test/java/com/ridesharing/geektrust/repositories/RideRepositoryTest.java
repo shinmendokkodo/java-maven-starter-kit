@@ -26,7 +26,7 @@ class RideRepositoryTest {
     }
 
     @Test
-    void getById_GivenRideId_ShouldReturnRide() {
+    void getByIdGivenRideIdShouldReturnRide() {
         // Arrange
         Ride expectedRide = new Ride("RIDE-102", new Rider("R2", 2.0, 2.0), new Driver("D2", 4.0, 4.0), 2.0, 2.0);
         // Act
@@ -36,7 +36,7 @@ class RideRepositoryTest {
     }
 
     @Test
-    void getById_GivenRideId_ShouldReturnNull() {
+    void getByIdGivenRideIdShouldReturnNull() {
         // Arrange
         String rideId = "RIDE-103";
         // Act
@@ -46,7 +46,7 @@ class RideRepositoryTest {
     }
 
     @Test
-    void save_ShouldSaveRider() {
+    void saveShouldSaveRider() {
         // Arrange
         Ride ride = new Ride("RIDE-103", new Rider("R3", 3.0, 2.0), new Driver("D3", 2.0, 3.0), 3.0, 2.0);
         // Act

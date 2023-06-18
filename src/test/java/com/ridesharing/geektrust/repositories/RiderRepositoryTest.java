@@ -5,12 +5,15 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
 import com.ridesharing.geektrust.models.Rider;
 import com.ridesharing.geektrust.repository.RiderRepository;
 import com.ridesharing.geektrust.repository.interfaces.IRiderRepository;
 
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class RiderRepositoryTest {
 
     private IRiderRepository riderRepository;
@@ -26,7 +29,7 @@ class RiderRepositoryTest {
     }
 
     @Test
-    void getById_GivenRiderId_ShouldReturnRider() {
+    void getByIdGivenRiderIdShouldReturnRider() {
         // Arrange
         Rider expectedRider = new Rider("R3", 3.0, 3.0);
         // Act
@@ -36,7 +39,7 @@ class RiderRepositoryTest {
     }
 
     @Test
-    void getById_GivenRiderId_ShouldReturnNull() {
+    void getByIdGivenRiderIdShouldReturnNull() {
         // Arrange
         String riderId = "R5";
         // Act
@@ -46,7 +49,7 @@ class RiderRepositoryTest {
     }
 
     @Test
-    void save_ShouldSaveRider() {
+    void saveShouldSaveRider() {
         // Arrange
         Rider rider = new Rider("R5", 5.0, 5.0);
         // Act

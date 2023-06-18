@@ -26,7 +26,7 @@ class MatchRepositoryTest {
     }
 
     @Test
-    void getById_GivenRiderId_ShouldReturnMatch() {
+    void getByIdGivenRiderIdShouldReturnMatch() {
         // Arrange
         Match expectedMatch = new Match("R3", List.of("D1", "D3", "D4"));
         // Act
@@ -36,7 +36,7 @@ class MatchRepositoryTest {
     }
 
     @Test
-    void getById_GivenRiderId_ShouldReturnNull() {
+    void getByIdGivenRiderIdShouldReturnNull() {
         // Arrange
         String matchId = "R5";
         // Act
@@ -46,7 +46,7 @@ class MatchRepositoryTest {
     }
 
     @Test
-    void save_ShouldSaveMatch() {
+    void saveShouldSaveMatch() {
         // Arrange
         Match match = new Match("R4", List.of("D3", "D2", "D4"));
         // Act

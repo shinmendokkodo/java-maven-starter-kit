@@ -26,7 +26,7 @@ class DriverRepositoryTest {
     }
 
     @Test
-    void getById_GivenDriverId_ShouldReturnDriver() {
+    void getByIdGivenDriverIdShouldReturnDriver() {
         // Arrange
         Driver expectedDriver = new Driver("D3", 3.0, 3.0);
         // Act
@@ -36,7 +36,7 @@ class DriverRepositoryTest {
     }
 
     @Test
-    void getById_GivenDriverId_ShouldReturnNull() {
+    void getByIdGivenDriverId_ShouldReturnNull() {
         // Arrange
         String driverId = "D5";
         // Act
@@ -46,7 +46,7 @@ class DriverRepositoryTest {
     }
 
     @Test
-    void save_ShouldSaveDriver() {
+    void saveShouldSaveDriver() {
         // Arrange
         Driver driver = new Driver("D5", 5.0, 5.0);
         // Act
