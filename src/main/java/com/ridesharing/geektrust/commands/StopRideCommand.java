@@ -8,7 +8,6 @@ import com.ridesharing.geektrust.services.IRiderService;
 import com.ridesharing.geektrust.utilities.Constants;
 
 public class StopRideCommand extends BaseCommand implements ICommand {
-
     public StopRideCommand(IRiderService riderService) {
         super(riderService);
     }
@@ -27,5 +26,4 @@ public class StopRideCommand extends BaseCommand implements ICommand {
             System.out.println(ex.getMessage());
         }
     }
-    
 }

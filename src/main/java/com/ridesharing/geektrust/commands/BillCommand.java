@@ -9,7 +9,6 @@ import com.ridesharing.geektrust.services.IRiderService;
 import com.ridesharing.geektrust.utilities.Constants;
 
 public class BillCommand extends BaseCommand implements ICommand {
-
     public BillCommand(IRiderService riderService) {
         super(riderService);
     }
@@ -25,5 +24,4 @@ public class BillCommand extends BaseCommand implements ICommand {
             System.out.println(ex.getMessage());
         }
     }
-    
 }

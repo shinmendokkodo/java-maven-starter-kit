@@ -8,7 +8,6 @@ import com.ridesharing.geektrust.services.IRiderService;
 import com.ridesharing.geektrust.utilities.Constants;
 
 public class MatchCommand extends BaseCommand implements ICommand {
-
     public MatchCommand(IRiderService riderService) {
         super(riderService);
     }
@@ -24,5 +23,4 @@ public class MatchCommand extends BaseCommand implements ICommand {
             System.out.println(ex.getMessage());
         }
     }
-    
 }

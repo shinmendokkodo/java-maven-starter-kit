@@ -8,7 +8,6 @@ import com.ridesharing.geektrust.services.IRiderService;
 import com.ridesharing.geektrust.utilities.Constants;
 
 public class AddDriverCommand extends BaseCommand implements ICommand {
-
     public AddDriverCommand(IRiderService riderService) {
         super(riderService);
     }
@@ -25,5 +24,4 @@ public class AddDriverCommand extends BaseCommand implements ICommand {
             System.out.println(ex.getMessage());
         }
     }
-    
 }
