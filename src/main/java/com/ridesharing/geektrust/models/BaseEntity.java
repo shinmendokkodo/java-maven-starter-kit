@@ -3,7 +3,7 @@ package com.ridesharing.geektrust.models;
 import java.util.Objects;
 
 public abstract class BaseEntity {
-    String id;
+    private String id;
 
     public String getId() {
         return id;

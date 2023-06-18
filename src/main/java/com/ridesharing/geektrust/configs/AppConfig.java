@@ -42,5 +42,4 @@ public class AppConfig {
         commandInvoker.register(Constants.BILL_COMMAND, billCommand);
         return commandInvoker;
     }
-
 }

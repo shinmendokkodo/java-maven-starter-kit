@@ -1,13 +1,13 @@
 package com.ridesharing.geektrust.models;
 
 public class Ride extends BaseEntity {
-    Rider rider;
-    Driver driver;
-    double startX;
-    double startY;
-    double endX;
-    double endY;
-    double timeTaken;
+    private Rider rider;
+    private Driver driver;
+    private double startX;
+    private double startY;
+    private double endX;
+    private double endY;
+    private double timeTaken;
 
     public Ride(String id, Rider rider, Driver driver, double startX, double startY) {
         super(id);

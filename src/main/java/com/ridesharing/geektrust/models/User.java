@@ -1,8 +1,8 @@
 package com.ridesharing.geektrust.models;
 
 public abstract class User extends BaseEntity {
-    double x;
-    double y;
+    private double x;
+    private double y;
 
     protected User(String id, double x, double y) {
         super(id);
