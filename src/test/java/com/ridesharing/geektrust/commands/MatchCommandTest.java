@@ -54,7 +54,7 @@ class MatchCommandTest {
 
         // Assert
         String expectedOutput = Constants.DRIVERS_MATCHED_OUTPUT + " " + String.join(" ", driverIds);
-        verify(riderService, times(1)).match(riderId);
+        verify(riderService, times(Constants.ONE)).match(riderId);
         assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
     }
 
@@ -71,7 +71,7 @@ class MatchCommandTest {
         // Assert
         String expectedOutput = Constants.NO_DRIVERS_AVAILABLE_MESSAGE;
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
-        verify(riderService ,times(1)).match(riderId);
+        verify(riderService ,times(Constants.ONE)).match(riderId);
     }
 
     @AfterEach

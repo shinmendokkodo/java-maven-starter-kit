@@ -1,5 +1,7 @@
 package com.ridesharing.geektrust.models;
 
+import com.ridesharing.geektrust.utilities.Constants;
+
 public abstract class User extends BaseEntity {
     private double x;
     private double y;
@@ -11,7 +13,7 @@ public abstract class User extends BaseEntity {
     }
 
     public double distanceTo(User other) {
-        return Math.sqrt(Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2));
+        return Math.sqrt(Math.pow(this.x - other.x, Constants.POWER_TWO) + Math.pow(this.y - other.y, Constants.POWER_TWO));
     }
 
     public double getX() {

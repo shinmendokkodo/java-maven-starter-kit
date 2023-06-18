@@ -53,7 +53,7 @@ class AddDriverCommandTest {
         addDriverCommand.execute(tokens);
 
         // Assert
-        verify(riderService, times(1)).addDriver(driverId, x, y);
+        verify(riderService, times(Constants.ONE)).addDriver(driverId, x, y);
     }
 
     @Test
@@ -71,7 +71,7 @@ class AddDriverCommandTest {
         // Assert
         String expectedOutput = Constants.ENTITY_EXISTS_MESSAGE;
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
-        verify(riderService ,times(1)).addDriver(driverId, x, y);
+        verify(riderService ,times(Constants.ONE)).addDriver(driverId, x, y);
     }
 
     @AfterEach

@@ -53,7 +53,7 @@ class AddRiderCommandTest {
         addRiderCommand.execute(tokens);
 
         // Assert
-        verify(riderService, times(1)).addRider(riderId, x, y);
+        verify(riderService, times(Constants.ONE)).addRider(riderId, x, y);
     }
 
     @Test
@@ -71,7 +71,7 @@ class AddRiderCommandTest {
         // Assert
         String expectedOutput = Constants.ENTITY_EXISTS_MESSAGE;
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
-        verify(riderService ,times(1)).addRider(riderId, x, y);
+        verify(riderService ,times(Constants.ONE)).addRider(riderId, x, y);
     }
 
     @AfterEach

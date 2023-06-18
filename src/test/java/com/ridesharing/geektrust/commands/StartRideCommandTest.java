@@ -56,7 +56,7 @@ class StartRideCommandTest {
 
         // Assert
         String expectedOutput = Constants.RIDE_STARTED_OUTPUT + " " + rideId;
-        verify(riderService, times(1)).startRide(rideId, driverOption, riderId);
+        verify(riderService, times(Constants.ONE)).startRide(rideId, driverOption, riderId);
         assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
     }
 
@@ -75,7 +75,7 @@ class StartRideCommandTest {
 
         // Assert
         String expectedOutput = Constants.INVALID_RIDE_MESSAGE;
-        verify(riderService, times(1)).startRide(rideId, driverOption, riderId);
+        verify(riderService, times(Constants.ONE)).startRide(rideId, driverOption, riderId);
         assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
     }
 

@@ -26,6 +26,7 @@ import com.ridesharing.geektrust.repository.interfaces.IDriverRepository;
 import com.ridesharing.geektrust.repository.interfaces.IMatchRepository;
 import com.ridesharing.geektrust.repository.interfaces.IRideRepository;
 import com.ridesharing.geektrust.repository.interfaces.IRiderRepository;
+import com.ridesharing.geektrust.utilities.Constants;
 
 @ExtendWith(MockitoExtension.class)
 class RiderServiceTest {
@@ -57,8 +58,8 @@ class RiderServiceTest {
         // Act
         riderService.addDriver(driverId, x, y);
         // Assert
-        verify(driverRepository, times(1)).getById(driverId);
-        verify(driverRepository, times(1)).save(driver);
+        verify(driverRepository, times(Constants.ONE)).getById(driverId);
+        verify(driverRepository, times(Constants.ONE)).save(driver);
     }
 
     @Test
@@ -71,7 +72,7 @@ class RiderServiceTest {
         when(driverRepository.getById(driverId)).thenReturn(driver);
         // Act & Assert
         Assertions.assertThrows(RiderException.class, () -> riderService.addDriver(driverId, x, y));
-        verify(driverRepository, times(1)).getById(driverId);
+        verify(driverRepository, times(Constants.ONE)).getById(driverId);
     }
 
     @Test
@@ -88,8 +89,8 @@ class RiderServiceTest {
         riderService.addRider(riderId, x, y);
 
         // Assert
-        verify(riderRepository, times(1)).getById(riderId);
-        verify(riderRepository, times(1)).save(rider);
+        verify(riderRepository, times(Constants.ONE)).getById(riderId);
+        verify(riderRepository, times(Constants.ONE)).save(rider);
     }
 
     @Test
@@ -103,7 +104,7 @@ class RiderServiceTest {
 
         // Act & Assert
         Assertions.assertThrows(RiderException.class, () -> riderService.addRider(riderId, x, y));
-        verify(riderRepository, times(1)).getById(riderId);
+        verify(riderRepository, times(Constants.ONE)).getById(riderId);
     }
 
     @Test
@@ -121,16 +122,16 @@ class RiderServiceTest {
         List<String> matchedDrivers = List.of("D1", "D3");
 
         when(riderRepository.getById(riderId)).thenReturn(rider);
-        when(driverRepository.getAll()).thenReturn(drivers);
+        when(driverRepository.getAvailableDrivers()).thenReturn(drivers);
         doNothing().when(matchRepository).save(any(Match.class));
 
         // Act
         List<String> result = riderService.match(riderId);
 
         // Assert
-        verify(riderRepository, times(1)).getById(riderId);
-        verify(driverRepository, times(1)).getAll();
-        verify(matchRepository, times(1)).save(any(Match.class));
+        verify(riderRepository, times(Constants.ONE)).getById(riderId);
+        verify(driverRepository, times(Constants.ONE)).getAvailableDrivers();
+        verify(matchRepository, times(Constants.ONE)).save(any(Match.class));
         Assertions.assertEquals(matchedDrivers, result);
     }
 
@@ -146,12 +147,12 @@ class RiderServiceTest {
         List<Driver> drivers = List.of(driver1, driver2);
 
         when(riderRepository.getById(riderId)).thenReturn(rider);
-        when(driverRepository.getAll()).thenReturn(drivers);
+        when(driverRepository.getAvailableDrivers()).thenReturn(drivers);
 
         // Act & Assert
         Assertions.assertThrows(RiderException.class, () -> riderService.match(riderId));
-        verify(riderRepository, times(1)).getById(riderId);
-        verify(driverRepository, times(1)).getAll();
+        verify(riderRepository, times(Constants.ONE)).getById(riderId);
+        verify(driverRepository, times(Constants.ONE)).getAvailableDrivers();
     }
 
     @Test
@@ -162,7 +163,7 @@ class RiderServiceTest {
 
         // Act & Assert
         Assertions.assertThrows(RiderException.class, () -> riderService.match(riderId));
-        verify(riderRepository, times(1)).getById(riderId);
+        verify(riderRepository, times(Constants.ONE)).getById(riderId);
     }
 
     @Test
@@ -175,7 +176,7 @@ class RiderServiceTest {
 
         // Act & Assert
         Assertions.assertThrows(RiderException.class, () -> riderService.startRide(rideId, driverOption, riderId));
-        verify(matchRepository, times(1)).getById(riderId);
+        verify(matchRepository, times(Constants.ONE)).getById(riderId);
     }
 
     @Test
@@ -198,8 +199,8 @@ class RiderServiceTest {
 
         // Act & Assert
         Assertions.assertThrows(RiderException.class, () -> riderService.startRide(rideId, driverOption, riderId));
-        verify(matchRepository, times(1)).getById(riderId);
-        verify(rideRepository, times(1)).getById(rideId);
+        verify(matchRepository, times(Constants.ONE)).getById(riderId);
+        verify(rideRepository, times(Constants.ONE)).getById(rideId);
     }
 
     @Test
@@ -216,8 +217,8 @@ class RiderServiceTest {
 
         // Act & Assert
         Assertions.assertThrows(RiderException.class, () -> riderService.startRide(rideId, driverOption, riderId));
-        verify(matchRepository, times(1)).getById(riderId);
-        verify(rideRepository, times(1)).getById(rideId);
+        verify(matchRepository, times(Constants.ONE)).getById(riderId);
+        verify(rideRepository, times(Constants.ONE)).getById(rideId);
     }
 
     @Test
@@ -235,9 +236,9 @@ class RiderServiceTest {
 
         // Act & Assert
         Assertions.assertThrows(RiderException.class, () -> riderService.startRide(rideId, driverOption, riderId));
-        verify(matchRepository, times(1)).getById(riderId);
-        verify(rideRepository, times(1)).getById(rideId);
-        verify(driverRepository, times(1)).getById(anyString());
+        verify(matchRepository, times(Constants.ONE)).getById(riderId);
+        verify(rideRepository, times(Constants.ONE)).getById(rideId);
+        verify(driverRepository, times(Constants.ONE)).getById(anyString());
     }
 
     @Test
@@ -259,9 +260,9 @@ class RiderServiceTest {
 
         // Act & Assert
         Assertions.assertThrows(RiderException.class, () -> riderService.startRide(rideId, driverOption, riderId));
-        verify(matchRepository, times(1)).getById(riderId);
-        verify(rideRepository, times(1)).getById(rideId);
-        verify(driverRepository, times(1)).getById(anyString());
+        verify(matchRepository, times(Constants.ONE)).getById(riderId);
+        verify(rideRepository, times(Constants.ONE)).getById(rideId);
+        verify(driverRepository, times(Constants.ONE)).getById(anyString());
     }
 
     @Test
@@ -283,10 +284,10 @@ class RiderServiceTest {
 
         // Act & Assert
         Assertions.assertThrows(RiderException.class, () -> riderService.startRide(rideId, driverOption, riderId));
-        verify(matchRepository, times(1)).getById(riderId);
-        verify(rideRepository, times(1)).getById(rideId);
-        verify(driverRepository, times(1)).getById(anyString());
-        verify(riderRepository, times(1)).getById(riderId);
+        verify(matchRepository, times(Constants.ONE)).getById(riderId);
+        verify(rideRepository, times(Constants.ONE)).getById(rideId);
+        verify(driverRepository, times(Constants.ONE)).getById(anyString());
+        verify(riderRepository, times(Constants.ONE)).getById(riderId);
     }
 
     @Test
@@ -313,12 +314,12 @@ class RiderServiceTest {
 
         // Assert
         Assertions.assertEquals(rideId, result);
-        verify(matchRepository, times(1)).getById(riderId);
-        verify(rideRepository, times(1)).getById(rideId);
-        verify(driverRepository, times(1)).getById(anyString());
-        verify(riderRepository, times(1)).getById(riderId);
-        verify(driverRepository, times(1)).save(driver);
-        verify(rideRepository, times(1)).save(any(Ride.class));
+        verify(matchRepository, times(Constants.ONE)).getById(riderId);
+        verify(rideRepository, times(Constants.ONE)).getById(rideId);
+        verify(driverRepository, times(Constants.ONE)).getById(anyString());
+        verify(riderRepository, times(Constants.ONE)).getById(riderId);
+        verify(driverRepository, times(Constants.ONE)).save(driver);
+        verify(rideRepository, times(Constants.ONE)).save(any(Ride.class));
     }
 
     @Test
@@ -332,7 +333,7 @@ class RiderServiceTest {
 
         // Act & Assert
         Assertions.assertThrows(RiderException.class, () -> riderService.stopRide(rideId, x, y, minutes));
-        verify(rideRepository, times(1)).getById(rideId);
+        verify(rideRepository, times(Constants.ONE)).getById(rideId);
     }
 
     @Test
@@ -355,7 +356,7 @@ class RiderServiceTest {
 
         // Act & Assert
         Assertions.assertThrows(RiderException.class, () -> riderService.stopRide(rideId, x, y, minutes));
-        verify(rideRepository, times(1)).getById(rideId);
+        verify(rideRepository, times(Constants.ONE)).getById(rideId);
     }
 
     @Test
@@ -382,9 +383,9 @@ class RiderServiceTest {
 
         // Assert
         Assertions.assertEquals(rideId, result);
-        verify(rideRepository, times(1)).getById(rideId);
-        verify(driverRepository, times(1)).save(driver);
-        verify(rideRepository, times(1)).save(ride);
+        verify(rideRepository, times(Constants.ONE)).getById(rideId);
+        verify(driverRepository, times(Constants.ONE)).save(driver);
+        verify(rideRepository, times(Constants.ONE)).save(ride);
     }
 
     @Test
@@ -395,7 +396,7 @@ class RiderServiceTest {
 
         // Act & Assert
         Assertions.assertThrows(RiderException.class, () -> riderService.bill(rideId));
-        verify(rideRepository, times(1)).getById(rideId);
+        verify(rideRepository, times(Constants.ONE)).getById(rideId);
     }
 
     @Test
@@ -414,7 +415,7 @@ class RiderServiceTest {
 
         // Act & Assert
         Assertions.assertThrows(RiderException.class, () -> riderService.bill(rideId));
-        verify(rideRepository, times(1)).getById(rideId);
+        verify(rideRepository, times(Constants.ONE)).getById(rideId);
     }
 
     @Test
@@ -442,6 +443,6 @@ class RiderServiceTest {
 
         // Act & Assert
         Assertions.assertEquals(expectedBillResponse, billResponse);
-        verify(rideRepository, times(1)).getById(rideId);
+        verify(rideRepository, times(Constants.ONE)).getById(rideId);
     }
 }

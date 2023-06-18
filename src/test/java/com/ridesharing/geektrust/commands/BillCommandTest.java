@@ -56,8 +56,8 @@ class BillCommandTest {
         billCommand.execute(tokens);
 
         // Assert
-        String expectedOutput = "BILL RIDE-101 D1 75.0";
-        verify(riderService, times(1)).bill(rideId);
+        String expectedOutput = "BILL RIDE-101 D1 75.00";
+        verify(riderService, times(Constants.ONE)).bill(rideId);
         assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
     }
 
@@ -74,7 +74,7 @@ class BillCommandTest {
 
         // Assert
         String expectedOutput = Constants.RIDE_NOT_COMPLETED_MESSAGE;
-        verify(riderService, times(1)).bill(rideId);
+        verify(riderService, times(Constants.ONE)).bill(rideId);
         assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
     }
 

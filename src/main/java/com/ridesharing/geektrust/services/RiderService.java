@@ -52,7 +52,6 @@ public class RiderService implements IRiderService {
 
     @Override
     public List<String> match(String riderId) throws RiderException {
-
         Rider rider = riderRepository.getById(riderId);
         if (rider == null)
             throw new RiderException(Constants.ENTITY_NOT_FOUND_MESSAGE);
@@ -66,18 +65,21 @@ public class RiderService implements IRiderService {
             return a.getId().compareTo(b.getId());
         });
 
-        for (Driver driver : driverRepository.getAll()) {
+        for (Driver driver : driverRepository.getAvailableDrivers()) {
             double distance = driver.distanceTo(rider);
-            if (driver.isAvailable() && distance <= 5.0) {
+            if (driver.isAvailable() && distance <= Constants.DRIVERS_DISTANCE) {
                 pq.offer(driver);
             }
         }
 
-        if (pq.isEmpty())
-            throw new RiderException(Constants.NO_DRIVERS_AVAILABLE_MESSAGE);
-
         List<String> matchedDrivers = new ArrayList<>();
-        while (!pq.isEmpty() && matchedDrivers.size() < 5) {
+
+        if (pq.isEmpty()) {
+            matchRepository.save(new Match(riderId, matchedDrivers));
+            throw new RiderException(Constants.NO_DRIVERS_AVAILABLE_MESSAGE);
+        }
+
+        while (!pq.isEmpty() && matchedDrivers.size() < Constants.DRIVERS_SIZE) {
             matchedDrivers.add(pq.poll().getId());
         }
 
@@ -99,11 +101,9 @@ public class RiderService implements IRiderService {
         if (match.getDriverIds().size() < driverOption)
             throw new RiderException(Constants.INVALID_RIDE_MESSAGE);
 
-        String driverId = match.getDriverIds().get(driverOption - 1);
+        String driverId = match.getDriverIds().get(driverOption - Constants.ONE);
         Driver driver = driverRepository.getById(driverId);
-        if (driver == null)
-            throw new RiderException(Constants.ENTITY_NOT_FOUND_MESSAGE);
-        if (!driver.isAvailable())
+        if (driver == null || !driver.isAvailable())
             throw new RiderException(Constants.INVALID_RIDE_MESSAGE);
 
         Rider rider = riderRepository.getById(riderId);
@@ -129,14 +129,14 @@ public class RiderService implements IRiderService {
             throw new RiderException(Constants.INVALID_RIDE_MESSAGE);
 
         ride.stopRide(x, y, minutes);
-        
+
         Driver driver = ride.getDriver();
         driver.setAvailable(true);
         ride.setDriver(driver);
 
         driverRepository.save(driver);
         rideRepository.save(ride);
-        
+
         return ride.getId();
     }
 
@@ -150,8 +150,9 @@ public class RiderService implements IRiderService {
             throw new RiderException(Constants.RIDE_NOT_COMPLETED_MESSAGE);
 
         double distanceTraveled = Math
-                .sqrt(Math.pow(ride.getEndX() - ride.getStartX(), 2) + Math.pow(ride.getEndY() - ride.getStartY(), 2));
-        distanceTraveled = Math.round(distanceTraveled * 100.0) / 100.0;
+                .sqrt(Math.pow(ride.getEndX() - ride.getStartX(), Constants.POWER_TWO)
+                        + Math.pow(ride.getEndY() - ride.getStartY(), Constants.POWER_TWO));
+        distanceTraveled = Math.round(distanceTraveled * Constants.MULTIPLIER) / Constants.MULTIPLIER;
 
         double baseFare = Constants.BASE_FARE;
         double distanceFare = Constants.distanceFare(distanceTraveled);
@@ -159,7 +160,8 @@ public class RiderService implements IRiderService {
         double serviceTax = Constants.taxedFare(baseFare + distanceFare + timeFare);
 
         double totalAmount = baseFare + distanceFare + timeFare + serviceTax;
-        totalAmount = Math.round(totalAmount * 100.0) / 100.0; // rounding to two decimal places
+        totalAmount = Math.round(totalAmount * Constants.MULTIPLIER) / Constants.MULTIPLIER; // rounding to two decimal
+                                                                                             // places
 
         return new BillResponse(ride.getId(), ride.getDriver().getId(), totalAmount);
     }

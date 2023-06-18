@@ -8,17 +8,21 @@ public class Constants {
     }
 
     public static final int BASE_FARE = 50;
+    public static final double TIME_FARE = 2.0;
+    public static final double TAX_FARE = 0.2;
+    public static final double DISTANCE_FARE = 6.5;
+    public static final double MULTIPLIER = 100.0;
 
     public static double distanceFare(double distanceTraveled) {
-        return 6.5 * distanceTraveled;
+        return Math.round(DISTANCE_FARE * distanceTraveled * MULTIPLIER) / MULTIPLIER;
     }
 
     public static double timeFare(double timeTaken) {
-        return 2.0 * timeTaken;
+        return Math.round(TIME_FARE * timeTaken * MULTIPLIER) / MULTIPLIER;
     }
 
     public static double taxedFare(double fare) {
-        return 0.2 * fare;
+        return Math.round(TAX_FARE * fare * MULTIPLIER) / MULTIPLIER;
     }
 
     // COMMANDS
@@ -55,4 +59,9 @@ public class Constants {
         DecimalFormat decimalFormat = new DecimalFormat(decimal);
         return decimalFormat.format(number);
     }
+
+    public static final int ONE = 1;
+    public static final int DRIVERS_SIZE = 5;
+    public static final double DRIVERS_DISTANCE = 5.0;
+    public static final int POWER_TWO = 2;
 }

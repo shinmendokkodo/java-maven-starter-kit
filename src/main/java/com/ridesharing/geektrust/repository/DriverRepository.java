@@ -3,6 +3,7 @@ package com.ridesharing.geektrust.repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.ridesharing.geektrust.models.Driver;
 import com.ridesharing.geektrust.repository.interfaces.IDriverRepository;
@@ -13,7 +14,7 @@ public class DriverRepository extends GenericRepository<Driver> implements IDriv
     }
 
     @Override
-    public List<Driver> getAll() {
-        return new ArrayList<>(map.values());
+    public List<Driver> getAvailableDrivers() {
+        return new ArrayList<>(map.values().stream().filter(Driver::isAvailable).collect(Collectors.toList()));
     }
 }

@@ -13,7 +13,7 @@
         {
             "type": "java",
             "name": "Main",
-            "args": "sample_input/input2.txt",
+            "args": "sample_input/input6.txt",
             "request": "launch",
             "mainClass": "com.ridesharing.geektrust.Main",
             "projectName": "geektrust"
